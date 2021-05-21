@@ -609,12 +609,12 @@ class SerializerMethodFieldInspector(FieldInspector):
         elif typing and inspect_signature:
             # look for Python 3.5+ style type hinting of the return value
             hint_class = inspect_signature(method).return_annotation
-            base_hint_class = hint_class
+            original_hint_class = hint_class
 
             if not inspect.isclass(hint_class) and hasattr(hint_class, '__args__'):
                 hint_class = hint_class.__args__[0]
             if inspect.isclass(hint_class) and not issubclass(hint_class, inspect._empty):
-                type_info = get_basic_type_info_from_hint(base_hint_class)
+                type_info = get_basic_type_info_from_hint(original_hint_class)
 
                 if type_info is not None:
                     SwaggerType, ChildSwaggerType = self._get_partial_types(field, swagger_object_type,
